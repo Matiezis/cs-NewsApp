@@ -78,6 +78,7 @@
             this.Controls.Add(this.rtbInput);
             this.Name = "NewsApp";
             this.Text = "NewsApp";
+            this.Load += new System.EventHandler(this.NewsApp_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,0 +1,9 @@
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Debug\NewsApp.exe.config
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Debug\NewsApp.exe
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Debug\NewsApp.pdb
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Debug\NewsApp.csprojResolveAssemblyReference.cache
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Debug\NewsApp.NewsApp.resources
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Debug\NewsApp.Properties.Resources.resources
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Debug\NewsApp.csproj.GenerateResource.Cache
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Debug\NewsApp.exe
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Debug\NewsApp.pdb
