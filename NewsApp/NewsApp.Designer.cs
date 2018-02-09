@@ -32,13 +32,14 @@
             this.lbSites = new System.Windows.Forms.ListBox();
             this.tbKeyword = new System.Windows.Forms.TextBox();
             this.bttnRun = new System.Windows.Forms.Button();
+            this.tabControl = new System.Windows.Forms.TabControl();
             this.SuspendLayout();
             // 
             // rtbInput
             // 
             this.rtbInput.Location = new System.Drawing.Point(12, 12);
             this.rtbInput.Name = "rtbInput";
-            this.rtbInput.Size = new System.Drawing.Size(495, 333);
+            this.rtbInput.Size = new System.Drawing.Size(495, 231);
             this.rtbInput.TabIndex = 0;
             this.rtbInput.Text = "";
             // 
@@ -67,11 +68,20 @@
             this.bttnRun.Text = "Run";
             this.bttnRun.UseVisualStyleBackColor = true;
             // 
+            // tabControl
+            // 
+            this.tabControl.Location = new System.Drawing.Point(12, 249);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(495, 329);
+            this.tabControl.TabIndex = 4;
+            // 
             // NewsApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1074, 590);
+            this.Controls.Add(this.tabControl);
             this.Controls.Add(this.bttnRun);
             this.Controls.Add(this.tbKeyword);
             this.Controls.Add(this.lbSites);
@@ -90,6 +100,7 @@
         private System.Windows.Forms.ListBox lbSites;
         private System.Windows.Forms.TextBox tbKeyword;
         private System.Windows.Forms.Button bttnRun;
+        private System.Windows.Forms.TabControl tabControl;
     }
 }
 

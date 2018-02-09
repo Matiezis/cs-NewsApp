@@ -26,8 +26,7 @@ namespace NewsApp
         private void NewsApp_Load(object sender, EventArgs e)
         {
             getSiteList();
-            //WebClient x = new WebClient();
-            //string source = x.DownloadString("http://www.onet.pl/");
+            readSitesHttpToTabs(tabControl);
         }
 
         private string SelectFile()
@@ -75,6 +74,24 @@ namespace NewsApp
             foreach (string s in websiteList)
             {
                 rtbInput.AppendText(s + Environment.NewLine);
+            }
+        }
+        private void readSitesHttpToTabs(TabControl tC)
+        {
+            WebClient webC = new WebClient();
+
+            foreach (string site in websiteList)
+            {
+                string[] splitted = site.Split('.');
+                TabPage tP = new TabPage(splitted[splitted.Length - 2]);
+
+                TextBox tB = new TextBox();
+                tB.Dock = DockStyle.Fill;
+                tB.Multiline = true;
+                tB.Text = webC.DownloadString(site);
+
+                tP.Controls.Add(tB);
+                tC.TabPages.Add(tP);
             }
         }
     }
