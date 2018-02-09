@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Text.RegularExpressions;
+using HtmlAgilityPack;
 
 namespace NewsApp
 {
@@ -78,20 +80,47 @@ namespace NewsApp
         }
         private void readSitesHttpToTabs(TabControl tC)
         {
-            WebClient webC = new WebClient();
-
+            HtmlWeb web = new HtmlWeb();
             foreach (string site in websiteList)
             {
                 string[] splitted = site.Split('.');
                 TabPage tP = new TabPage(splitted[splitted.Length - 2]);
 
-                TextBox tB = new TextBox();
+                RichTextBox tB = new RichTextBox();
                 tB.Dock = DockStyle.Fill;
                 tB.Multiline = true;
-                tB.Text = webC.DownloadString(site);
+                tB.ScrollBars = RichTextBoxScrollBars.Vertical;
+
+                HtmlAgilityPack.HtmlDocument document = web.Load(site);
+                try
+                {
+                    HtmlNode[] nodes = document.DocumentNode.SelectNodes("//span[@class='title']").ToArray();
+
+                    foreach (HtmlNode item in nodes)
+                    {
+                        tB.AppendText(item.InnerHtml + Environment.NewLine);
+                    }
+                }
+                catch(Exception e)
+                {
+
+                }
 
                 tP.Controls.Add(tB);
                 tC.TabPages.Add(tP);
+            }
+        }
+        private void test()
+        {
+            foreach (string site in websiteList)
+            {
+                HtmlWeb web = new HtmlWeb();
+                HtmlAgilityPack.HtmlDocument document = web.Load("http://www.onet.pl");
+                HtmlNode[] nodes = document.DocumentNode.SelectNodes("//span[@class='title']").ToArray();
+                foreach (HtmlNode item in nodes)
+                {
+                    rtbInput.AppendText(item.InnerHtml + Environment.NewLine);
+                }
             }
         }
     }
