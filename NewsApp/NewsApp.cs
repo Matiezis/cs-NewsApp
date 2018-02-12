@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Text.RegularExpressions;
+using HtmlAgilityPack;
 
 namespace NewsApp
 {
@@ -22,6 +24,10 @@ namespace NewsApp
         private string websiteFilePath = "";
         private string articlesFilePath = "";
         List<string> websiteList = new List<string>();
+        string[] titleTags = { "//span[@class='title']",
+                               "//div[@class='_3I9Ewz']",
+                               "//h3[@class='itemTitle']",
+                               "//li[@class='news-li ']"};
 
         private void NewsApp_Load(object sender, EventArgs e)
         {
@@ -78,18 +84,36 @@ namespace NewsApp
         }
         private void readSitesHttpToTabs(TabControl tC)
         {
-            WebClient webC = new WebClient();
-
+            HtmlWeb web = new HtmlWeb();
             foreach (string site in websiteList)
             {
                 string[] splitted = site.Split('.');
                 TabPage tP = new TabPage(splitted[splitted.Length - 2]);
 
-                TextBox tB = new TextBox();
+                RichTextBox tB = new RichTextBox();
                 tB.Dock = DockStyle.Fill;
                 tB.Multiline = true;
-                tB.Text = webC.DownloadString(site);
+                tB.ScrollBars = RichTextBoxScrollBars.Vertical;
 
+                HtmlAgilityPack.HtmlDocument document = web.Load(site);
+                try
+                {
+                    foreach (string tag in titleTags)
+                    {
+                        if (document.DocumentNode.SelectNodes(tag) != null)
+                        {
+                            HtmlNode[] nodes = document.DocumentNode.SelectNodes(tag).ToArray();
+                            foreach (HtmlNode item in nodes)
+                            {
+                                tB.AppendText(item.InnerText.Replace("&quot;","'") + Environment.NewLine);
+                            }
+                        }
+                    }
+                }
+                catch(Exception e)
+                {
+
+                }
                 tP.Controls.Add(tB);
                 tC.TabPages.Add(tP);
             }
