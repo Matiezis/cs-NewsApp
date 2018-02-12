@@ -24,6 +24,9 @@ namespace NewsApp
         private string websiteFilePath = "";
         private string articlesFilePath = "";
         List<string> websiteList = new List<string>();
+        string[] titleTags = { "//span[@class='title']",
+                               "//div[@class='_3I9Ewz']",
+                               "//li[@class='news-li ']"};
 
         private void NewsApp_Load(object sender, EventArgs e)
         {
@@ -94,11 +97,17 @@ namespace NewsApp
                 HtmlAgilityPack.HtmlDocument document = web.Load(site);
                 try
                 {
-                    HtmlNode[] nodes = document.DocumentNode.SelectNodes("//span[@class='title']").ToArray();
-
-                    foreach (HtmlNode item in nodes)
+                    
+                    foreach (string tag in titleTags)
                     {
-                        tB.AppendText(item.InnerHtml + Environment.NewLine);
+                        if (document.DocumentNode.SelectNodes(tag) != null)
+                        {
+                            HtmlNode[] nodes = document.DocumentNode.SelectNodes(tag).ToArray();
+                            foreach (HtmlNode item in nodes)
+                            {
+                                tB.AppendText(item.InnerText + Environment.NewLine);
+                            }
+                        }
                     }
                 }
                 catch(Exception e)
@@ -108,19 +117,6 @@ namespace NewsApp
 
                 tP.Controls.Add(tB);
                 tC.TabPages.Add(tP);
-            }
-        }
-        private void test()
-        {
-            foreach (string site in websiteList)
-            {
-                HtmlWeb web = new HtmlWeb();
-                HtmlAgilityPack.HtmlDocument document = web.Load("http://www.onet.pl");
-                HtmlNode[] nodes = document.DocumentNode.SelectNodes("//span[@class='title']").ToArray();
-                foreach (HtmlNode item in nodes)
-                {
-                    rtbInput.AppendText(item.InnerHtml + Environment.NewLine);
-                }
             }
         }
     }
