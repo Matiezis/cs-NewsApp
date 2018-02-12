@@ -105,7 +105,8 @@ namespace NewsApp
                             HtmlNode[] nodes = document.DocumentNode.SelectNodes(tag).ToArray();
                             foreach (HtmlNode item in nodes)
                             {
-                                tB.AppendText(item.InnerText + Environment.NewLine);
+                                tB.AppendText(item.InnerText.Replace("&quot;","'") + Environment.NewLine);
+                                
                             }
                         }
                     }
