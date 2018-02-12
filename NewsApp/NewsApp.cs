@@ -26,6 +26,7 @@ namespace NewsApp
         List<string> websiteList = new List<string>();
         string[] titleTags = { "//span[@class='title']",
                                "//div[@class='_3I9Ewz']",
+                               "//h3[@class='itemTitle']",
                                "//li[@class='news-li ']"};
 
         private void NewsApp_Load(object sender, EventArgs e)
@@ -97,7 +98,6 @@ namespace NewsApp
                 HtmlAgilityPack.HtmlDocument document = web.Load(site);
                 try
                 {
-                    
                     foreach (string tag in titleTags)
                     {
                         if (document.DocumentNode.SelectNodes(tag) != null)
@@ -106,7 +106,6 @@ namespace NewsApp
                             foreach (HtmlNode item in nodes)
                             {
                                 tB.AppendText(item.InnerText.Replace("&quot;","'") + Environment.NewLine);
-                                
                             }
                         }
                     }
@@ -115,7 +114,6 @@ namespace NewsApp
                 {
 
                 }
-
                 tP.Controls.Add(tB);
                 tC.TabPages.Add(tP);
             }
