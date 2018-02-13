@@ -119,33 +119,52 @@ namespace NewsApp
             }
 
         }
-        /*
-        private void test()
+
+        private void bttnRun_Click(object sender, EventArgs e)
         {
-            const string xpath = "//a";
-            HtmlWeb web = new HtmlWeb();
-            List<Site> siteList = new List<Site>();
-            siteList.Add(new Site("onet"));
-            
-            HtmlAgilityPack.HtmlDocument document = web.Load("http://www.onet.pl/");
-            //The following gives you a node collection of your two <a> elements
-            HtmlNode[] items = document.DocumentNode.SelectNodes(xpath).ToArray();
-            foreach (HtmlNode a in items)
+            if (tbKeyword.Text != "")
             {
-                if (a.Attributes.Contains("href"))
-                //Get your value here
+                rtbOutput.Text = "";
+                string keyword = tbKeyword.Text;
+                foreach (Site site in siteList)
                 {
-                    siteList[siteList.Count - 1].articles.Add(new Article(a.InnerText.Trim().Replace("&quot;", "'"), a.Attributes["href"].Value));
-                }
-            }
-            foreach(Site site in siteList)
-            {
-                foreach(Article article in site.articles)
-                {
-                    rtbInput.AppendText(article.name + Environment.NewLine + article.link + Environment.NewLine);
+                    foreach (Article article in site.articles)
+                    {
+                        if (article.name.Contains(keyword))
+                        {
+                            rtbOutput.AppendText(article.name + Environment.NewLine + article.link + Environment.NewLine);
+                        }
+                    }
                 }
             }
         }
-        */
+        /*
+private void test()
+{
+   const string xpath = "//a";
+   HtmlWeb web = new HtmlWeb();
+   List<Site> siteList = new List<Site>();
+   siteList.Add(new Site("onet"));
+
+   HtmlAgilityPack.HtmlDocument document = web.Load("http://www.onet.pl/");
+   //The following gives you a node collection of your two <a> elements
+   HtmlNode[] items = document.DocumentNode.SelectNodes(xpath).ToArray();
+   foreach (HtmlNode a in items)
+   {
+       if (a.Attributes.Contains("href"))
+       //Get your value here
+       {
+           siteList[siteList.Count - 1].articles.Add(new Article(a.InnerText.Trim().Replace("&quot;", "'"), a.Attributes["href"].Value));
+       }
+   }
+   foreach(Site site in siteList)
+   {
+       foreach(Article article in site.articles)
+       {
+           rtbInput.AppendText(article.name + Environment.NewLine + article.link + Environment.NewLine);
+       }
+   }
+}
+*/
     }
 }
