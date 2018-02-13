@@ -92,7 +92,7 @@ namespace NewsApp
                     if (trimmedSiteName.StartsWith("www."))
                         trimmedSiteName = trimmedSiteName.Substring("www.".Length);
 
-                TabPage tP = new TabPage(trimmedSiteName);
+                TabPage tP = new TabPage(trimmedSiteName.Remove(trimmedSiteName.Length-1));
                 siteList.Add(new Site(site));
 
                 RichTextBox tB = new RichTextBox();
@@ -105,17 +105,19 @@ namespace NewsApp
                 {
                     if (document.DocumentNode.SelectNodes("//a") != null)
                     {
+                        int nr = 0;
                         HtmlNode[] nodes = document.DocumentNode.SelectNodes("//a").ToArray();
                         foreach (HtmlNode node in nodes) {
                             if (node.Attributes.Contains("href"))
                             {
+                                nr++;
                                 if (node.Attributes["href"].Value.StartsWith("/")|| node.Attributes["href"].Value.StartsWith("#"))
                                 {
-                                    tB.AppendText(node.InnerText.Trim().Replace("&quot;", "'").ToLower() + Environment.NewLine + site+node.Attributes["href"].Value.Trim() + Environment.NewLine);
+                                    tB.AppendText(nr + ". " + node.InnerText.Trim().Replace("&quot;", "'").ToLower() + Environment.NewLine + site+node.Attributes["href"].Value.Trim() + Environment.NewLine);
                                     siteList[siteList.Count - 1].articles.Add(new Article(node.InnerText.Trim().Replace("&quot;", "'").ToLower(), site+node.Attributes["href"].Value.Trim()));
                                 }
                                 else { }
-                                tB.AppendText(node.InnerText.Trim().Replace("&quot;", "'").ToLower() + Environment.NewLine + node.Attributes["href"].Value.Trim() + Environment.NewLine);
+                                tB.AppendText(nr + ". " + node.InnerText.Trim().Replace("&quot;", "'").ToLower() + Environment.NewLine + node.Attributes["href"].Value.Trim() + Environment.NewLine);
                                 siteList[siteList.Count - 1].articles.Add(new Article(node.InnerText.Trim().Replace("&quot;", "'").ToLower(), node.Attributes["href"].Value.Trim()));
                             }
                         }
@@ -136,13 +138,15 @@ namespace NewsApp
             {
                 rtbOutput.Text = "";
                 string keyword = tbKeyword.Text.Trim().ToLower();
+                int nr = 1;
                 foreach (Site site in siteList)
                 {
                     foreach (Article article in site.articles)
                     {
                         if (article.name.Contains(keyword))
                         {
-                            rtbOutput.AppendText(article.name + Environment.NewLine + article.link + Environment.NewLine);
+                            rtbOutput.AppendText(nr + ". " + article.name + Environment.NewLine + article.link + Environment.NewLine);
+                            nr++;
                         }
                     }
                 }
@@ -155,12 +159,12 @@ namespace NewsApp
 
         private void bttnSend_Click(object sender, EventArgs e)
         {
-            if (tbMailInput.Text != ""&& tbEmailAdress.Text !="" && tbEmailLogin.Text !="" && tbEmailPassword.Text !="")
+            if (tbMailInput.Text != ""&& tbEmailAdress.Text !="" && tbEmailLogin.Text !="" && tbEmailPassword.Text !="" && tbKeyword.Text !="")
             {
                 try
                 {
                     MailMessage mail = new MailMessage();
-                    SmtpClient SmtpServer = new SmtpClient("smtp-mail.outlook.com");
+                    SmtpClient SmtpServer = new SmtpClient("poczta.o2.pl");
 
                     mail.From = new MailAddress(tbEmailAdress.Text);
                     mail.To.Add(tbMailInput.Text);
@@ -178,6 +182,7 @@ namespace NewsApp
                 {
                     MessageBox.Show(ex.ToString());
                 }
+                saveCache();
             }
         }
 
@@ -192,6 +197,30 @@ namespace NewsApp
             bttnRun.Enabled = true;
             bttnSend.Enabled = true;
             rtbOutput.Enabled = true;
+            readCache();
+        }
+
+        private void readCache()
+        {
+            tbEmailAdress.Text = Properties.Cache.Default.email_adress;
+            tbEmailLogin.Text = Properties.Cache.Default.email_login;
+            tbMailInput.Text = Properties.Cache.Default.email_recipent;
+        }
+
+        private void saveCache()
+        {
+            Properties.Cache.Default.email_adress = tbEmailAdress.Text;
+            Properties.Cache.Default.email_login = tbEmailLogin.Text;
+            Properties.Cache.Default.email_recipent = tbMailInput.Text;
+            Properties.Cache.Default.Save();
+        }
+
+        private void tbKeyword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                bttnRun_Click(sender, e);
+            }
         }
     }
 }

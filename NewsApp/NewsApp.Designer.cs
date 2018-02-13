@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewsApp));
             this.rtbInput = new System.Windows.Forms.RichTextBox();
             this.tbKeyword = new System.Windows.Forms.TextBox();
             this.bttnRun = new System.Windows.Forms.Button();
@@ -61,6 +62,7 @@
             this.tbKeyword.Name = "tbKeyword";
             this.tbKeyword.Size = new System.Drawing.Size(375, 24);
             this.tbKeyword.TabIndex = 2;
+            this.tbKeyword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbKeyword_KeyPress);
             // 
             // bttnRun
             // 
@@ -204,6 +206,7 @@
             this.Controls.Add(this.bttnRun);
             this.Controls.Add(this.tbKeyword);
             this.Controls.Add(this.rtbInput);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NewsApp";
             this.Text = "NewsApp";
             this.Load += new System.EventHandler(this.NewsApp_Load);
