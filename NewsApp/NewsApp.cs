@@ -104,8 +104,8 @@ namespace NewsApp
                         if (a.Attributes.Contains("href"))
                         //Get your value here
                         {
-                                tB.AppendText(a.InnerText.Trim().Replace("&quot;", "'")+Environment.NewLine+ a.Attributes["href"].Value+Environment.NewLine);
-                            siteList[siteList.Count - 1].articles.Add(new Article(a.InnerText.Trim().Replace("&quot;", "'"), a.Attributes["href"].Value));
+                                tB.AppendText(a.InnerText.Trim().Replace("&quot;", "'").ToLower() + Environment.NewLine + a.Attributes["href"].Value.Trim() +Environment.NewLine);
+                            siteList[siteList.Count - 1].articles.Add(new Article(a.InnerText.Trim().Replace("&quot;", "'").ToLower(), a.Attributes["href"].Value.Trim()));
                         }
                     }
                     }
@@ -119,13 +119,12 @@ namespace NewsApp
             }
 
         }
-
         private void bttnRun_Click(object sender, EventArgs e)
         {
             if (tbKeyword.Text != "")
             {
                 rtbOutput.Text = "";
-                string keyword = tbKeyword.Text;
+                string keyword = tbKeyword.Text.Trim().ToLower();
                 foreach (Site site in siteList)
                 {
                     foreach (Article article in site.articles)
@@ -136,6 +135,10 @@ namespace NewsApp
                         }
                     }
                 }
+            }
+            else
+            {
+                MessageBox.Show("No Input");
             }
         }
         /*
