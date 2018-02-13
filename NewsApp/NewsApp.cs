@@ -24,16 +24,13 @@ namespace NewsApp
         private string websiteFilePath = "";
         private string articlesFilePath = "";
         List<string> websiteList = new List<string>();
-        string[] titleTags = { "//span[@class='title']",
-                               "//div[@class='_3I9Ewz']",
-                               "//h3[@class='itemTitle']",
-                               "//li[@class='news-li ']"};
+        List<Site> siteList = new List<Site>();
 
         private void NewsApp_Load(object sender, EventArgs e)
         {
             getSiteList();
-            //readSitesHttpToTabs(tabControl);
-            test();
+            readSitesHttpToTabs(tabControl);
+            //test();
         }
 
         private string SelectFile()
@@ -90,6 +87,7 @@ namespace NewsApp
             {
                 string[] splitted = site.Split('.');
                 TabPage tP = new TabPage(splitted[splitted.Length - 2]);
+                siteList.Add(new Site(splitted[splitted.Length - 2]));
 
                 RichTextBox tB = new RichTextBox();
                 tB.Dock = DockStyle.Fill;
@@ -99,16 +97,17 @@ namespace NewsApp
                 HtmlAgilityPack.HtmlDocument document = web.Load(site);
                 try
                 {
-                    foreach (string tag in titleTags)
+                    if (document.DocumentNode.SelectNodes("//a") != null)
                     {
-                        if (document.DocumentNode.SelectNodes(tag) != null)
+                        HtmlNode[] nodes = document.DocumentNode.SelectNodes("//a").ToArray();
+                        foreach (HtmlNode a in nodes) { 
+                        if (a.Attributes.Contains("href"))
+                        //Get your value here
                         {
-                            HtmlNode[] nodes = document.DocumentNode.SelectNodes(tag).ToArray();
-                            foreach (HtmlNode item in nodes)
-                            {
-                                tB.AppendText(item.InnerText.Replace("&quot;","'") + Environment.NewLine);
-                            }
+                                tB.AppendText(a.InnerText.Trim().Replace("&quot;", "'")+Environment.NewLine+ a.Attributes["href"].Value+Environment.NewLine);
+                            siteList[siteList.Count - 1].articles.Add(new Article(a.InnerText.Trim().Replace("&quot;", "'"), a.Attributes["href"].Value));
                         }
+                    }
                     }
                 }
                 catch(Exception e)
@@ -118,10 +117,12 @@ namespace NewsApp
                 tP.Controls.Add(tB);
                 tC.TabPages.Add(tP);
             }
+
         }
+        /*
         private void test()
         {
-            const string xpath = "//div[@class='sectionLine']/a";
+            const string xpath = "//a";
             HtmlWeb web = new HtmlWeb();
             List<Site> siteList = new List<Site>();
             siteList.Add(new Site("onet"));
@@ -134,7 +135,7 @@ namespace NewsApp
                 if (a.Attributes.Contains("href"))
                 //Get your value here
                 {
-                    siteList[siteList.Count - 1].articles.Add(new Article(a.InnerText.Trim(), a.Attributes["href"].Value));
+                    siteList[siteList.Count - 1].articles.Add(new Article(a.InnerText.Trim().Replace("&quot;", "'"), a.Attributes["href"].Value));
                 }
             }
             foreach(Site site in siteList)
@@ -145,5 +146,6 @@ namespace NewsApp
                 }
             }
         }
+        */
     }
 }
