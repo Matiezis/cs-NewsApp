@@ -32,7 +32,8 @@ namespace NewsApp
         private void NewsApp_Load(object sender, EventArgs e)
         {
             getSiteList();
-            readSitesHttpToTabs(tabControl);
+            //readSitesHttpToTabs(tabControl);
+            test();
         }
 
         private string SelectFile()
@@ -77,9 +78,9 @@ namespace NewsApp
                 websiteFilePath = SelectFile();
 
             readSiteList();
-            foreach (string s in websiteList)
+            foreach (string site in websiteList)
             {
-                rtbInput.AppendText(s + Environment.NewLine);
+                rtbInput.AppendText(site + Environment.NewLine);
             }
         }
         private void readSitesHttpToTabs(TabControl tC)
@@ -116,6 +117,32 @@ namespace NewsApp
                 }
                 tP.Controls.Add(tB);
                 tC.TabPages.Add(tP);
+            }
+        }
+        private void test()
+        {
+            const string xpath = "//div[@class='sectionLine']/a";
+            HtmlWeb web = new HtmlWeb();
+            List<Site> siteList = new List<Site>();
+            siteList.Add(new Site("onet"));
+            
+            HtmlAgilityPack.HtmlDocument document = web.Load("http://www.onet.pl/");
+            //The following gives you a node collection of your two <a> elements
+            HtmlNode[] items = document.DocumentNode.SelectNodes(xpath).ToArray();
+            foreach (HtmlNode a in items)
+            {
+                if (a.Attributes.Contains("href"))
+                //Get your value here
+                {
+                    siteList[siteList.Count - 1].articles.Add(new Article(a.InnerText.Trim(), a.Attributes["href"].Value));
+                }
+            }
+            foreach(Site site in siteList)
+            {
+                foreach(Article article in site.articles)
+                {
+                    rtbInput.AppendText(article.name + Environment.NewLine + article.link + Environment.NewLine);
+                }
             }
         }
     }
