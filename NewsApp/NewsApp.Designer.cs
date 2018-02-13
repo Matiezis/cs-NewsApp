@@ -42,18 +42,20 @@
             this.lblEmailLogin = new System.Windows.Forms.Label();
             this.lblEmailPassword = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.bttnSearch = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // rtbInput
             // 
-            this.rtbInput.Location = new System.Drawing.Point(12, 12);
+            this.rtbInput.Location = new System.Drawing.Point(12, 43);
             this.rtbInput.Name = "rtbInput";
-            this.rtbInput.Size = new System.Drawing.Size(495, 261);
+            this.rtbInput.Size = new System.Drawing.Size(495, 230);
             this.rtbInput.TabIndex = 0;
             this.rtbInput.Text = "";
             // 
             // tbKeyword
             // 
+            this.tbKeyword.Enabled = false;
             this.tbKeyword.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.tbKeyword.Location = new System.Drawing.Point(513, 12);
             this.tbKeyword.Name = "tbKeyword";
@@ -62,11 +64,12 @@
             // 
             // bttnRun
             // 
+            this.bttnRun.Enabled = false;
             this.bttnRun.Location = new System.Drawing.Point(894, 12);
             this.bttnRun.Name = "bttnRun";
             this.bttnRun.Size = new System.Drawing.Size(114, 23);
             this.bttnRun.TabIndex = 3;
-            this.bttnRun.Text = "Run";
+            this.bttnRun.Text = "Filter";
             this.bttnRun.UseVisualStyleBackColor = true;
             this.bttnRun.Click += new System.EventHandler(this.bttnRun_Click);
             // 
@@ -80,6 +83,7 @@
             // 
             // rtbOutput
             // 
+            this.rtbOutput.Enabled = false;
             this.rtbOutput.Location = new System.Drawing.Point(514, 43);
             this.rtbOutput.Name = "rtbOutput";
             this.rtbOutput.Size = new System.Drawing.Size(494, 386);
@@ -88,6 +92,7 @@
             // 
             // bttnSend
             // 
+            this.bttnSend.Enabled = false;
             this.bttnSend.Location = new System.Drawing.Point(713, 555);
             this.bttnSend.Name = "bttnSend";
             this.bttnSend.Size = new System.Drawing.Size(114, 23);
@@ -98,6 +103,7 @@
             // 
             // tbMailInput
             // 
+            this.tbMailInput.Enabled = false;
             this.tbMailInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.tbMailInput.Location = new System.Drawing.Point(633, 525);
             this.tbMailInput.Name = "tbMailInput";
@@ -106,6 +112,7 @@
             // 
             // tbEmailAdress
             // 
+            this.tbEmailAdress.Enabled = false;
             this.tbEmailAdress.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.tbEmailAdress.Location = new System.Drawing.Point(633, 435);
             this.tbEmailAdress.Name = "tbEmailAdress";
@@ -114,6 +121,7 @@
             // 
             // tbEmailLogin
             // 
+            this.tbEmailLogin.Enabled = false;
             this.tbEmailLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.tbEmailLogin.Location = new System.Drawing.Point(633, 465);
             this.tbEmailLogin.Name = "tbEmailLogin";
@@ -122,6 +130,7 @@
             // 
             // tbEmailPassword
             // 
+            this.tbEmailPassword.Enabled = false;
             this.tbEmailPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.tbEmailPassword.Location = new System.Drawing.Point(633, 495);
             this.tbEmailPassword.Name = "tbEmailPassword";
@@ -165,11 +174,22 @@
             this.label1.TabIndex = 14;
             this.label1.Text = "Recipent Email Adress";
             // 
+            // bttnSearch
+            // 
+            this.bttnSearch.Location = new System.Drawing.Point(176, 12);
+            this.bttnSearch.Name = "bttnSearch";
+            this.bttnSearch.Size = new System.Drawing.Size(114, 23);
+            this.bttnSearch.TabIndex = 15;
+            this.bttnSearch.Text = "Search";
+            this.bttnSearch.UseVisualStyleBackColor = true;
+            this.bttnSearch.Click += new System.EventHandler(this.bttnSearch_Click);
+            // 
             // NewsApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1074, 590);
+            this.Controls.Add(this.bttnSearch);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblEmailPassword);
             this.Controls.Add(this.lblEmailLogin);
@@ -208,6 +228,7 @@
         private System.Windows.Forms.Label lblEmailLogin;
         private System.Windows.Forms.Label lblEmailPassword;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button bttnSearch;
     }
 }
 

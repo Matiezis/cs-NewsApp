@@ -30,7 +30,7 @@ namespace NewsApp
         private void NewsApp_Load(object sender, EventArgs e)
         {
             getSiteList();
-            readSitesHttpToTabs(tabControl);
+            
             //test();
         }
 
@@ -86,9 +86,17 @@ namespace NewsApp
             HtmlWeb web = new HtmlWeb();
             foreach (string site in websiteList)
             {
-                string[] splitted = site.Split('.');
-                TabPage tP = new TabPage(splitted[splitted.Length - 2]);
-                siteList.Add(new Site(splitted[splitted.Length - 2]));
+                string trimmedSiteName = site;
+
+                if (trimmedSiteName.StartsWith("https://"))
+                    trimmedSiteName = trimmedSiteName.Substring("https://".Length);
+                if (trimmedSiteName.StartsWith("http://"))
+                        trimmedSiteName = trimmedSiteName.Substring("http://".Length);
+                    if (trimmedSiteName.StartsWith("www."))
+                        trimmedSiteName = trimmedSiteName.Substring("www.".Length);
+
+                TabPage tP = new TabPage(trimmedSiteName);
+                siteList.Add(new Site(site));
 
                 RichTextBox tB = new RichTextBox();
                 tB.Dock = DockStyle.Fill;
@@ -101,13 +109,19 @@ namespace NewsApp
                     if (document.DocumentNode.SelectNodes("//a") != null)
                     {
                         HtmlNode[] nodes = document.DocumentNode.SelectNodes("//a").ToArray();
-                        foreach (HtmlNode node in nodes) { 
-                        if (node.Attributes.Contains("href"))
-                        {
-                                tB.AppendText(node.InnerText.Trim().Replace("&quot;", "'").ToLower() + Environment.NewLine + node.Attributes["href"].Value.Trim() +Environment.NewLine);
-                            siteList[siteList.Count - 1].articles.Add(new Article(node.InnerText.Trim().Replace("&quot;", "'").ToLower(), node.Attributes["href"].Value.Trim()));
+                        foreach (HtmlNode node in nodes) {
+                            if (node.Attributes.Contains("href"))
+                            {
+                                if (node.Attributes["href"].Value.StartsWith("/")|| node.Attributes["href"].Value.StartsWith("#"))
+                                {
+                                    tB.AppendText(node.InnerText.Trim().Replace("&quot;", "'").ToLower() + Environment.NewLine + site+node.Attributes["href"].Value.Trim() + Environment.NewLine);
+                                    siteList[siteList.Count - 1].articles.Add(new Article(node.InnerText.Trim().Replace("&quot;", "'").ToLower(), site+node.Attributes["href"].Value.Trim()));
+                                }
+                                else { }
+                                tB.AppendText(node.InnerText.Trim().Replace("&quot;", "'").ToLower() + Environment.NewLine + node.Attributes["href"].Value.Trim() + Environment.NewLine);
+                                siteList[siteList.Count - 1].articles.Add(new Article(node.InnerText.Trim().Replace("&quot;", "'").ToLower(), node.Attributes["href"].Value.Trim()));
+                            }
                         }
-                    }
                     }
                 }
                 catch(Exception e)
@@ -170,6 +184,19 @@ namespace NewsApp
                 }
             }
         }
+
+        private void bttnSearch_Click(object sender, EventArgs e)
+        {
+            readSitesHttpToTabs(tabControl);
+            tbEmailAdress.Enabled = true;
+            tbEmailLogin.Enabled = true;
+            tbEmailPassword.Enabled = true;
+            tbKeyword.Enabled = true;
+            tbMailInput.Enabled = true;
+            bttnRun.Enabled = true;
+            bttnSend.Enabled = true;
+            rtbOutput.Enabled = true;
+        }
         /*
 private void test()
 {
@@ -186,14 +213,14 @@ foreach (HtmlNode a in items)
 if (a.Attributes.Contains("href"))
 //Get your value here
 {
-  siteList[siteList.Count - 1].articles.Add(new Article(a.InnerText.Trim().Replace("&quot;", "'"), a.Attributes["href"].Value));
+siteList[siteList.Count - 1].articles.Add(new Article(a.InnerText.Trim().Replace("&quot;", "'"), a.Attributes["href"].Value));
 }
 }
 foreach(Site site in siteList)
 {
 foreach(Article article in site.articles)
 {
-  rtbInput.AppendText(article.name + Environment.NewLine + article.link + Environment.NewLine);
+rtbInput.AppendText(article.name + Environment.NewLine + article.link + Environment.NewLine);
 }
 }
 }
