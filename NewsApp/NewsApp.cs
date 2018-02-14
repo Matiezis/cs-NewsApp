@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using System.Net.Mail;
 
 namespace NewsApp
 {
@@ -22,17 +23,12 @@ namespace NewsApp
         }
 
         private string websiteFilePath = "";
-        private string articlesFilePath = "";
         List<string> websiteList = new List<string>();
-        string[] titleTags = { "//span[@class='title']",
-                               "//div[@class='_3I9Ewz']",
-                               "//h3[@class='itemTitle']",
-                               "//li[@class='news-li ']"};
+        List<Site> siteList = new List<Site>();
 
         private void NewsApp_Load(object sender, EventArgs e)
         {
             getSiteList();
-            readSitesHttpToTabs(tabControl);
         }
 
         private string SelectFile()
@@ -77,9 +73,9 @@ namespace NewsApp
                 websiteFilePath = SelectFile();
 
             readSiteList();
-            foreach (string s in websiteList)
+            foreach (string site in websiteList)
             {
-                rtbInput.AppendText(s + Environment.NewLine);
+                rtbInput.AppendText(site + Environment.NewLine);
             }
         }
         private void readSitesHttpToTabs(TabControl tC)
@@ -87,8 +83,17 @@ namespace NewsApp
             HtmlWeb web = new HtmlWeb();
             foreach (string site in websiteList)
             {
-                string[] splitted = site.Split('.');
-                TabPage tP = new TabPage(splitted[splitted.Length - 2]);
+                string trimmedSiteName = site;
+
+                if (trimmedSiteName.StartsWith("https://"))
+                    trimmedSiteName = trimmedSiteName.Substring("https://".Length);
+                if (trimmedSiteName.StartsWith("http://"))
+                        trimmedSiteName = trimmedSiteName.Substring("http://".Length);
+                    if (trimmedSiteName.StartsWith("www."))
+                        trimmedSiteName = trimmedSiteName.Substring("www.".Length);
+
+                TabPage tP = new TabPage(trimmedSiteName);
+                siteList.Add(new Site(site));
 
                 RichTextBox tB = new RichTextBox();
                 tB.Dock = DockStyle.Fill;
@@ -98,25 +103,95 @@ namespace NewsApp
                 HtmlAgilityPack.HtmlDocument document = web.Load(site);
                 try
                 {
-                    foreach (string tag in titleTags)
+                    if (document.DocumentNode.SelectNodes("//a") != null)
                     {
-                        if (document.DocumentNode.SelectNodes(tag) != null)
-                        {
-                            HtmlNode[] nodes = document.DocumentNode.SelectNodes(tag).ToArray();
-                            foreach (HtmlNode item in nodes)
+                        HtmlNode[] nodes = document.DocumentNode.SelectNodes("//a").ToArray();
+                        foreach (HtmlNode node in nodes) {
+                            if (node.Attributes.Contains("href"))
                             {
-                                tB.AppendText(item.InnerText.Replace("&quot;","'") + Environment.NewLine);
+                                if (node.Attributes["href"].Value.StartsWith("/")|| node.Attributes["href"].Value.StartsWith("#"))
+                                {
+                                    tB.AppendText(node.InnerText.Trim().Replace("&quot;", "'").ToLower() + Environment.NewLine + site+node.Attributes["href"].Value.Trim() + Environment.NewLine);
+                                    siteList[siteList.Count - 1].articles.Add(new Article(node.InnerText.Trim().Replace("&quot;", "'").ToLower(), site+node.Attributes["href"].Value.Trim()));
+                                }
+                                else { }
+                                tB.AppendText(node.InnerText.Trim().Replace("&quot;", "'").ToLower() + Environment.NewLine + node.Attributes["href"].Value.Trim() + Environment.NewLine);
+                                siteList[siteList.Count - 1].articles.Add(new Article(node.InnerText.Trim().Replace("&quot;", "'").ToLower(), node.Attributes["href"].Value.Trim()));
                             }
                         }
                     }
                 }
                 catch(Exception e)
                 {
-
+                    MessageBox.Show("Following error occured: "+Environment.NewLine+e.ToString());
                 }
                 tP.Controls.Add(tB);
                 tC.TabPages.Add(tP);
             }
+
+        }
+        private void bttnRun_Click(object sender, EventArgs e)
+        {
+            if (tbKeyword.Text != "")
+            {
+                rtbOutput.Text = "";
+                string keyword = tbKeyword.Text.Trim().ToLower();
+                foreach (Site site in siteList)
+                {
+                    foreach (Article article in site.articles)
+                    {
+                        if (article.name.Contains(keyword))
+                        {
+                            rtbOutput.AppendText(article.name + Environment.NewLine + article.link + Environment.NewLine);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No Input");
+            }
+        }
+
+        private void bttnSend_Click(object sender, EventArgs e)
+        {
+            if (tbMailInput.Text != ""&& tbEmailAdress.Text !="" && tbEmailLogin.Text !="" && tbEmailPassword.Text !="")
+            {
+                try
+                {
+                    MailMessage mail = new MailMessage();
+                    SmtpClient SmtpServer = new SmtpClient("smtp-mail.outlook.com");
+
+                    mail.From = new MailAddress(tbEmailAdress.Text);
+                    mail.To.Add(tbMailInput.Text);
+                    mail.Subject = "Articles for keyword: "+tbKeyword.Text;
+                    mail.Body = rtbOutput.Text;
+
+                    SmtpServer.Port = 587;
+                    SmtpServer.Credentials = new System.Net.NetworkCredential(tbEmailLogin.Text, tbEmailPassword.Text);
+                    SmtpServer.EnableSsl = true;
+
+                    SmtpServer.Send(mail);
+                    MessageBox.Show("Mail succesfuly sent");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+        }
+
+        private void bttnSearch_Click(object sender, EventArgs e)
+        {
+            readSitesHttpToTabs(tabControl);
+            tbEmailAdress.Enabled = true;
+            tbEmailLogin.Enabled = true;
+            tbEmailPassword.Enabled = true;
+            tbKeyword.Enabled = true;
+            tbMailInput.Enabled = true;
+            bttnRun.Enabled = true;
+            bttnSend.Enabled = true;
+            rtbOutput.Enabled = true;
         }
     }
 }
