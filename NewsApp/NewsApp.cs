@@ -115,12 +115,12 @@ namespace NewsApp
                                 if (node.Attributes["href"].Value.StartsWith("/") || node.Attributes["href"].Value.StartsWith("#"))
                                 {
                                     tB.AppendText(titleTrimming(node.InnerText) + Environment.NewLine + site + node.Attributes["href"].Value.Trim() + Environment.NewLine);
-                                    siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText).ToLower(), site + node.Attributes["href"].Value.Trim()));
+                                    siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText), site + node.Attributes["href"].Value.Trim()));
                                 }
                                 else
                                 {
                                     tB.AppendText(titleTrimming(node.InnerText) + Environment.NewLine + node.Attributes["href"].Value.Trim() + Environment.NewLine);
-                                    siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText).ToLower(), node.Attributes["href"].Value.Trim()));
+                                    siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText), node.Attributes["href"].Value.Trim()));
                                 }
                             }
                         }
@@ -145,7 +145,7 @@ namespace NewsApp
                 {
                     foreach (Article article in site.articles)
                     {
-                        if (article.name.Contains(keyword))
+                        if (titleNormalizing(article.name).Contains(titleNormalizing(keyword)))
                         {
                             rtbOutput.AppendText(article.name + Environment.NewLine + article.link + Environment.NewLine);
                         }
@@ -200,16 +200,20 @@ namespace NewsApp
         }
         private string titleTrimming(string title)
         {
+            title = HttpUtility.HtmlDecode(title);
+            title = title.Trim();
+            title = title.Replace("\n", "");
+            while (title.Contains("  "))
+                title = title.Replace("  ", " ");
+            return title;
+        }
+        private string titleNormalizing(string title)
+        {
             char[] polishSymbols = { 'ą', 'ć', 'ę', 'ł', 'ń', 'ó', 'ś', 'ź', 'ż', };
             char[] polishLetters = { 'a', 'c', 'e', 'l', 'n', 'o', 's', 'z', 'z', };
-
-            title = title.Trim().ToLower();
-            title = HttpUtility.HtmlDecode(title);
+            title = titleTrimming(title).ToLower();
             for (int i = 0; i < polishSymbols.Length; i++)
-                title=title.Replace(polishSymbols[i], polishLetters[i]);
-            title = title.Replace("\n", "");
-            while(title.Contains("  "))
-                title = title.Replace("  ", " ");
+                title = title.Replace(polishSymbols[i], polishLetters[i]);
             return title;
         }
     }
