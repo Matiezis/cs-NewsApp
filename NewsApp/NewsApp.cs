@@ -12,6 +12,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using System.Net.Mail;
+using System.Web;
 
 namespace NewsApp
 {
@@ -58,6 +59,8 @@ namespace NewsApp
             if (File.Exists(websiteFilePath))
             {
                 websiteList = new List<string>(File.ReadLines(websiteFilePath));
+                for (int i = 0; i < websiteList.Count(); i++)
+                    websiteList[i] = websiteList[i].TrimEnd('/');
             }
         }
 
@@ -109,14 +112,16 @@ namespace NewsApp
                         foreach (HtmlNode node in nodes) {
                             if (node.Attributes.Contains("href"))
                             {
-                                if (node.Attributes["href"].Value.StartsWith("/")|| node.Attributes["href"].Value.StartsWith("#"))
+                                if (node.Attributes["href"].Value.StartsWith("/") || node.Attributes["href"].Value.StartsWith("#"))
                                 {
-                                    tB.AppendText(node.InnerText.Trim().Replace("&quot;", "'").ToLower() + Environment.NewLine + site+node.Attributes["href"].Value.Trim() + Environment.NewLine);
-                                    siteList[siteList.Count - 1].articles.Add(new Article(node.InnerText.Trim().Replace("&quot;", "'").ToLower(), site+node.Attributes["href"].Value.Trim()));
+                                    tB.AppendText(titleTrimming(node.InnerText) + Environment.NewLine + site + node.Attributes["href"].Value.Trim() + Environment.NewLine);
+                                    siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText).ToLower(), site + node.Attributes["href"].Value.Trim()));
                                 }
-                                else { }
-                                tB.AppendText(node.InnerText.Trim().Replace("&quot;", "'").ToLower() + Environment.NewLine + node.Attributes["href"].Value.Trim() + Environment.NewLine);
-                                siteList[siteList.Count - 1].articles.Add(new Article(node.InnerText.Trim().Replace("&quot;", "'").ToLower(), node.Attributes["href"].Value.Trim()));
+                                else
+                                {
+                                    tB.AppendText(titleTrimming(node.InnerText) + Environment.NewLine + node.Attributes["href"].Value.Trim() + Environment.NewLine);
+                                    siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText).ToLower(), node.Attributes["href"].Value.Trim()));
+                                }
                             }
                         }
                     }
@@ -135,7 +140,7 @@ namespace NewsApp
             if (tbKeyword.Text != "")
             {
                 rtbOutput.Text = "";
-                string keyword = tbKeyword.Text.Trim().ToLower();
+                string keyword = titleTrimming(tbKeyword.Text);
                 foreach (Site site in siteList)
                 {
                     foreach (Article article in site.articles)
@@ -192,6 +197,20 @@ namespace NewsApp
             bttnRun.Enabled = true;
             bttnSend.Enabled = true;
             rtbOutput.Enabled = true;
+        }
+        private string titleTrimming(string title)
+        {
+            char[] polishSymbols = { 'ą', 'ć', 'ę', 'ł', 'ń', 'ó', 'ś', 'ź', 'ż', };
+            char[] polishLetters = { 'a', 'c', 'e', 'l', 'n', 'o', 's', 'z', 'z', };
+
+            title = title.Trim().ToLower();
+            title = HttpUtility.HtmlDecode(title);
+            for (int i = 0; i < polishSymbols.Length; i++)
+                title=title.Replace(polishSymbols[i], polishLetters[i]);
+            title = title.Replace("\n", "");
+            while(title.Contains("  "))
+                title = title.Replace("  ", " ");
+            return title;
         }
     }
 }
