@@ -91,9 +91,9 @@ namespace NewsApp
                 if (trimmedSiteName.StartsWith("https://"))
                     trimmedSiteName = trimmedSiteName.Substring("https://".Length);
                 if (trimmedSiteName.StartsWith("http://"))
-                        trimmedSiteName = trimmedSiteName.Substring("http://".Length);
-                    if (trimmedSiteName.StartsWith("www."))
-                        trimmedSiteName = trimmedSiteName.Substring("www.".Length);
+                    trimmedSiteName = trimmedSiteName.Substring("http://".Length);
+                if (trimmedSiteName.StartsWith("www."))
+                    trimmedSiteName = trimmedSiteName.Substring("www.".Length);
 
                 TabPage tP = new TabPage(trimmedSiteName);
                 siteList.Add(new Site(site));
@@ -109,26 +109,30 @@ namespace NewsApp
                     if (document.DocumentNode.SelectNodes("//a") != null)
                     {
                         HtmlNode[] nodes = document.DocumentNode.SelectNodes("//a").ToArray();
-                        foreach (HtmlNode node in nodes) {
+                        foreach (HtmlNode node in nodes)
+                        {
                             if (node.Attributes.Contains("href"))
                             {
                                 if (node.Attributes["href"].Value.StartsWith("/") || node.Attributes["href"].Value.StartsWith("#"))
                                 {
                                     tB.AppendText(titleTrimming(node.InnerText) + Environment.NewLine + site + node.Attributes["href"].Value.Trim() + Environment.NewLine);
-                                    siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText), site + node.Attributes["href"].Value.Trim()));
+
+                                    if (!checkIfAlreadyExists(titleTrimming(node.InnerText), site + node.Attributes["href"].Value.Trim()))
+                                        siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText), site + node.Attributes["href"].Value.Trim()));
                                 }
                                 else
                                 {
                                     tB.AppendText(titleTrimming(node.InnerText) + Environment.NewLine + node.Attributes["href"].Value.Trim() + Environment.NewLine);
-                                    siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText), node.Attributes["href"].Value.Trim()));
+                                    if (!checkIfAlreadyExists(titleTrimming(node.InnerText), node.Attributes["href"].Value.Trim()))
+                                        siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText), node.Attributes["href"].Value.Trim()));
                                 }
                             }
                         }
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    MessageBox.Show("Following error occured: "+Environment.NewLine+e.ToString());
+                    MessageBox.Show("Following error occured: " + Environment.NewLine + e.ToString());
                 }
                 tP.Controls.Add(tB);
                 tC.TabPages.Add(tP);
@@ -160,7 +164,7 @@ namespace NewsApp
 
         private void bttnSend_Click(object sender, EventArgs e)
         {
-            if (tbMailInput.Text != ""&& tbEmailAdress.Text !="" && tbEmailLogin.Text !="" && tbEmailPassword.Text !="")
+            if (tbMailInput.Text != "" && tbEmailAdress.Text != "" && tbEmailLogin.Text != "" && tbEmailPassword.Text != "")
             {
                 try
                 {
@@ -169,7 +173,7 @@ namespace NewsApp
 
                     mail.From = new MailAddress(tbEmailAdress.Text);
                     mail.To.Add(tbMailInput.Text);
-                    mail.Subject = "Articles for keyword: "+tbKeyword.Text;
+                    mail.Subject = "Articles for keyword: " + tbKeyword.Text;
                     mail.Body = rtbOutput.Text;
 
                     SmtpServer.Port = 587;
@@ -215,6 +219,24 @@ namespace NewsApp
             for (int i = 0; i < polishSymbols.Length; i++)
                 title = title.Replace(polishSymbols[i], polishLetters[i]);
             return title;
+        }
+        private bool checkIfAlreadyExists(string title, string link)
+        {
+            foreach (Site site in siteList)
+            {
+                if (site.articles.Count > 1)
+                {
+                    foreach (Article article in site.articles)
+                    {
+                        if (article.name == title && article.link == link)
+                        {
+                            return true;
+
+                        }
+                    }
+                }
+            }
+            return false;
         }
     }
 }
