@@ -192,6 +192,9 @@ namespace NewsApp
 
         private void bttnSearch_Click(object sender, EventArgs e)
         {
+            panelCover.Visible = true;
+            lblPressSearch.Visible = true;
+
             readSitesHttpToTabs(tabControl);
             tbEmailAdress.Enabled = true;
             tbEmailLogin.Enabled = true;
@@ -201,12 +204,18 @@ namespace NewsApp
             bttnRun.Enabled = true;
             bttnSend.Enabled = true;
             rtbOutput.Enabled = true;
+            lblInsertKeyword.Enabled = true;
+            lblInsertKeyword.Text = "Insert the keyword by which you would like to filter the articles";
+
+            panelCover.Visible = false;
+            lblPressSearch.Visible = true;
         }
         private string titleTrimming(string title)
         {
             title = HttpUtility.HtmlDecode(title);
             title = title.Trim();
             title = title.Replace("\n", "");
+            title = title.Replace("\t", " ");
             while (title.Contains("  "))
                 title = title.Replace("  ", " ");
             return title;
@@ -237,6 +246,44 @@ namespace NewsApp
                 }
             }
             return false;
+        }
+
+        private void bttnReadFile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                websiteFilePath = SelectFile();
+                if (File.Exists(websiteFilePath))
+                {
+                    rtbInput.Text = "";
+                    websiteList = new List<string>(File.ReadLines(websiteFilePath));
+                    for (int i = 0; i < websiteList.Count(); i++)
+                        websiteList[i] = websiteList[i].TrimEnd('/');
+                    foreach (string site in websiteList)
+                    {
+                        rtbInput.AppendText(site + Environment.NewLine);
+                    }
+                }
+            }
+            catch (Exception ex) {
+                MessageBox.Show("Following error occured: " + Environment.NewLine + ex.ToString());
+            }
+        }
+
+        private void bttnSaveFile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                websiteFilePath = SelectFile();
+                if (File.Exists(websiteFilePath))
+                {
+                    rtbInput.SaveFile(websiteFilePath, RichTextBoxStreamType.PlainText);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Following error occured: " + Environment.NewLine + ex.ToString());
+            }
         }
     }
 }

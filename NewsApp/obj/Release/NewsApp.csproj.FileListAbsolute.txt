@@ -1,0 +1,13 @@
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Release\NewsApp.exe.config
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Release\NewsApp.exe
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Release\NewsApp.pdb
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Release\HtmlAgilityPack.dll
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Release\HtmlAgilityPack.pdb
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Release\HtmlAgilityPack.xml
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Release\NewsApp.csprojResolveAssemblyReference.cache
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Release\NewsApp.NewsApp.resources
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Release\NewsApp.Properties.Resources.resources
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Release\NewsApp.csproj.GenerateResource.Cache
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Release\NewsApp.exe
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Release\NewsApp.pdb
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Release\sites.txt

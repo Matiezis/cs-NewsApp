@@ -43,13 +43,20 @@
             this.lblEmailPassword = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.bttnSearch = new System.Windows.Forms.Button();
+            this.bttnReadFile = new System.Windows.Forms.Button();
+            this.bttnSaveFile = new System.Windows.Forms.Button();
+            this.panelCover = new System.Windows.Forms.Panel();
+            this.lblPressSearch = new System.Windows.Forms.Label();
+            this.lblInsertSite = new System.Windows.Forms.Label();
+            this.lblInsertKeyword = new System.Windows.Forms.Label();
+            this.panelCover.SuspendLayout();
             this.SuspendLayout();
             // 
             // rtbInput
             // 
-            this.rtbInput.Location = new System.Drawing.Point(12, 43);
+            this.rtbInput.Location = new System.Drawing.Point(12, 32);
             this.rtbInput.Name = "rtbInput";
-            this.rtbInput.Size = new System.Drawing.Size(495, 230);
+            this.rtbInput.Size = new System.Drawing.Size(495, 261);
             this.rtbInput.TabIndex = 0;
             this.rtbInput.Text = "";
             // 
@@ -57,7 +64,7 @@
             // 
             this.tbKeyword.Enabled = false;
             this.tbKeyword.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbKeyword.Location = new System.Drawing.Point(513, 12);
+            this.tbKeyword.Location = new System.Drawing.Point(513, 32);
             this.tbKeyword.Name = "tbKeyword";
             this.tbKeyword.Size = new System.Drawing.Size(375, 24);
             this.tbKeyword.TabIndex = 2;
@@ -65,7 +72,7 @@
             // bttnRun
             // 
             this.bttnRun.Enabled = false;
-            this.bttnRun.Location = new System.Drawing.Point(894, 12);
+            this.bttnRun.Location = new System.Drawing.Point(894, 32);
             this.bttnRun.Name = "bttnRun";
             this.bttnRun.Size = new System.Drawing.Size(114, 23);
             this.bttnRun.TabIndex = 3;
@@ -75,16 +82,16 @@
             // 
             // tabControl
             // 
-            this.tabControl.Location = new System.Drawing.Point(12, 279);
+            this.tabControl.Location = new System.Drawing.Point(12, 328);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(495, 299);
+            this.tabControl.Size = new System.Drawing.Size(495, 270);
             this.tabControl.TabIndex = 4;
             // 
             // rtbOutput
             // 
             this.rtbOutput.Enabled = false;
-            this.rtbOutput.Location = new System.Drawing.Point(514, 43);
+            this.rtbOutput.Location = new System.Drawing.Point(514, 63);
             this.rtbOutput.Name = "rtbOutput";
             this.rtbOutput.Size = new System.Drawing.Size(494, 386);
             this.rtbOutput.TabIndex = 5;
@@ -93,7 +100,7 @@
             // bttnSend
             // 
             this.bttnSend.Enabled = false;
-            this.bttnSend.Location = new System.Drawing.Point(713, 555);
+            this.bttnSend.Location = new System.Drawing.Point(713, 575);
             this.bttnSend.Name = "bttnSend";
             this.bttnSend.Size = new System.Drawing.Size(114, 23);
             this.bttnSend.TabIndex = 6;
@@ -105,7 +112,7 @@
             // 
             this.tbMailInput.Enabled = false;
             this.tbMailInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbMailInput.Location = new System.Drawing.Point(633, 525);
+            this.tbMailInput.Location = new System.Drawing.Point(633, 545);
             this.tbMailInput.Name = "tbMailInput";
             this.tbMailInput.Size = new System.Drawing.Size(375, 24);
             this.tbMailInput.TabIndex = 7;
@@ -114,7 +121,7 @@
             // 
             this.tbEmailAdress.Enabled = false;
             this.tbEmailAdress.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbEmailAdress.Location = new System.Drawing.Point(633, 435);
+            this.tbEmailAdress.Location = new System.Drawing.Point(633, 455);
             this.tbEmailAdress.Name = "tbEmailAdress";
             this.tbEmailAdress.Size = new System.Drawing.Size(375, 24);
             this.tbEmailAdress.TabIndex = 8;
@@ -123,7 +130,7 @@
             // 
             this.tbEmailLogin.Enabled = false;
             this.tbEmailLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbEmailLogin.Location = new System.Drawing.Point(633, 465);
+            this.tbEmailLogin.Location = new System.Drawing.Point(633, 485);
             this.tbEmailLogin.Name = "tbEmailLogin";
             this.tbEmailLogin.Size = new System.Drawing.Size(375, 24);
             this.tbEmailLogin.TabIndex = 9;
@@ -132,7 +139,7 @@
             // 
             this.tbEmailPassword.Enabled = false;
             this.tbEmailPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbEmailPassword.Location = new System.Drawing.Point(633, 495);
+            this.tbEmailPassword.Location = new System.Drawing.Point(633, 515);
             this.tbEmailPassword.Name = "tbEmailPassword";
             this.tbEmailPassword.PasswordChar = '*';
             this.tbEmailPassword.Size = new System.Drawing.Size(375, 24);
@@ -141,7 +148,7 @@
             // lblEmailAdress
             // 
             this.lblEmailAdress.AutoSize = true;
-            this.lblEmailAdress.Location = new System.Drawing.Point(535, 442);
+            this.lblEmailAdress.Location = new System.Drawing.Point(535, 462);
             this.lblEmailAdress.Name = "lblEmailAdress";
             this.lblEmailAdress.Size = new System.Drawing.Size(92, 13);
             this.lblEmailAdress.TabIndex = 11;
@@ -150,7 +157,7 @@
             // lblEmailLogin
             // 
             this.lblEmailLogin.AutoSize = true;
-            this.lblEmailLogin.Location = new System.Drawing.Point(541, 472);
+            this.lblEmailLogin.Location = new System.Drawing.Point(541, 492);
             this.lblEmailLogin.Name = "lblEmailLogin";
             this.lblEmailLogin.Size = new System.Drawing.Size(86, 13);
             this.lblEmailLogin.TabIndex = 12;
@@ -159,7 +166,7 @@
             // lblEmailPassword
             // 
             this.lblEmailPassword.AutoSize = true;
-            this.lblEmailPassword.Location = new System.Drawing.Point(521, 502);
+            this.lblEmailPassword.Location = new System.Drawing.Point(521, 522);
             this.lblEmailPassword.Name = "lblEmailPassword";
             this.lblEmailPassword.Size = new System.Drawing.Size(106, 13);
             this.lblEmailPassword.TabIndex = 13;
@@ -168,7 +175,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(514, 532);
+            this.label1.Location = new System.Drawing.Point(514, 552);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(113, 13);
             this.label1.TabIndex = 14;
@@ -176,19 +183,84 @@
             // 
             // bttnSearch
             // 
-            this.bttnSearch.Location = new System.Drawing.Point(176, 12);
+            this.bttnSearch.Location = new System.Drawing.Point(12, 299);
             this.bttnSearch.Name = "bttnSearch";
             this.bttnSearch.Size = new System.Drawing.Size(114, 23);
             this.bttnSearch.TabIndex = 15;
-            this.bttnSearch.Text = "Search";
+            this.bttnSearch.Text = "Search for articles";
             this.bttnSearch.UseVisualStyleBackColor = true;
             this.bttnSearch.Click += new System.EventHandler(this.bttnSearch_Click);
+            // 
+            // bttnReadFile
+            // 
+            this.bttnReadFile.Location = new System.Drawing.Point(273, 299);
+            this.bttnReadFile.Name = "bttnReadFile";
+            this.bttnReadFile.Size = new System.Drawing.Size(114, 23);
+            this.bttnReadFile.TabIndex = 16;
+            this.bttnReadFile.Text = "Read from file";
+            this.bttnReadFile.UseVisualStyleBackColor = true;
+            this.bttnReadFile.Click += new System.EventHandler(this.bttnReadFile_Click);
+            // 
+            // bttnSaveFile
+            // 
+            this.bttnSaveFile.Location = new System.Drawing.Point(393, 299);
+            this.bttnSaveFile.Name = "bttnSaveFile";
+            this.bttnSaveFile.Size = new System.Drawing.Size(114, 23);
+            this.bttnSaveFile.TabIndex = 17;
+            this.bttnSaveFile.Text = "Save to file...";
+            this.bttnSaveFile.UseVisualStyleBackColor = true;
+            this.bttnSaveFile.Click += new System.EventHandler(this.bttnSaveFile_Click);
+            // 
+            // panelCover
+            // 
+            this.panelCover.Controls.Add(this.lblPressSearch);
+            this.panelCover.Location = new System.Drawing.Point(12, 328);
+            this.panelCover.Name = "panelCover";
+            this.panelCover.Size = new System.Drawing.Size(495, 270);
+            this.panelCover.TabIndex = 18;
+            // 
+            // lblPressSearch
+            // 
+            this.lblPressSearch.AutoSize = true;
+            this.lblPressSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblPressSearch.Location = new System.Drawing.Point(78, 122);
+            this.lblPressSearch.Name = "lblPressSearch";
+            this.lblPressSearch.Size = new System.Drawing.Size(308, 25);
+            this.lblPressSearch.TabIndex = 0;
+            this.lblPressSearch.Text = "Searching for articles. Please wait.";
+            this.lblPressSearch.Visible = false;
+            // 
+            // lblInsertSite
+            // 
+            this.lblInsertSite.AutoSize = true;
+            this.lblInsertSite.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblInsertSite.Location = new System.Drawing.Point(12, 9);
+            this.lblInsertSite.Name = "lblInsertSite";
+            this.lblInsertSite.Size = new System.Drawing.Size(402, 20);
+            this.lblInsertSite.TabIndex = 19;
+            this.lblInsertSite.Text = "Insert site urls from which you would like to get the titles.";
+            // 
+            // lblInsertKeyword
+            // 
+            this.lblInsertKeyword.AutoSize = true;
+            this.lblInsertKeyword.Enabled = false;
+            this.lblInsertKeyword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblInsertKeyword.Location = new System.Drawing.Point(513, 9);
+            this.lblInsertKeyword.Name = "lblInsertKeyword";
+            this.lblInsertKeyword.Size = new System.Drawing.Size(291, 20);
+            this.lblInsertKeyword.TabIndex = 20;
+            this.lblInsertKeyword.Text = "Press the search button to get the titles.";
             // 
             // NewsApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1074, 590);
+            this.ClientSize = new System.Drawing.Size(1016, 629);
+            this.Controls.Add(this.lblInsertKeyword);
+            this.Controls.Add(this.lblInsertSite);
+            this.Controls.Add(this.panelCover);
+            this.Controls.Add(this.bttnSaveFile);
+            this.Controls.Add(this.bttnReadFile);
             this.Controls.Add(this.bttnSearch);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblEmailPassword);
@@ -207,6 +279,8 @@
             this.Name = "NewsApp";
             this.Text = "NewsApp";
             this.Load += new System.EventHandler(this.NewsApp_Load);
+            this.panelCover.ResumeLayout(false);
+            this.panelCover.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -229,6 +303,12 @@
         private System.Windows.Forms.Label lblEmailPassword;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button bttnSearch;
+        private System.Windows.Forms.Button bttnReadFile;
+        private System.Windows.Forms.Button bttnSaveFile;
+        private System.Windows.Forms.Panel panelCover;
+        private System.Windows.Forms.Label lblPressSearch;
+        private System.Windows.Forms.Label lblInsertSite;
+        private System.Windows.Forms.Label lblInsertKeyword;
     }
 }
 
