@@ -10,3 +10,4 @@ C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\obj\Debug\NewsApp.pdb
 C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Debug\HtmlAgilityPack.dll
 C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Debug\HtmlAgilityPack.pdb
 C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Debug\HtmlAgilityPack.xml
+C:\Users\Mateusz\Desktop\Repozytoria\cs-NewsApp\NewsApp\bin\Debug\sites.txt
