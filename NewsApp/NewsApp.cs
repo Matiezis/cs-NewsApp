@@ -83,66 +83,68 @@ namespace NewsApp
         }
         private void readSitesHtmlToTabs(TabControl tC)
         {
-            HtmlWeb web = new HtmlWeb();
-            foreach (string site in websiteList)
+            if (isInternetConnection())
             {
-                Uri uriResult;
-                if (Uri.TryCreate(site, UriKind.Absolute, out uriResult)
-                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+                HtmlWeb web = new HtmlWeb();
+                foreach (string site in websiteList)
                 {
-                    string trimmedSiteName = site;
-
-                    if (trimmedSiteName.StartsWith("https://"))
-                        trimmedSiteName = trimmedSiteName.Substring("https://".Length);
-                    if (trimmedSiteName.StartsWith("http://"))
-                        trimmedSiteName = trimmedSiteName.Substring("http://".Length);
-                    if (trimmedSiteName.StartsWith("www."))
-                        trimmedSiteName = trimmedSiteName.Substring("www.".Length);
-
-                    TabPage tP = new TabPage(trimmedSiteName);
-                    siteList.Add(new Site(site));
-
-                    RichTextBox tB = new RichTextBox();
-                    tB.Dock = DockStyle.Fill;
-                    tB.Multiline = true;
-                    tB.ScrollBars = RichTextBoxScrollBars.Vertical;
-
-                    HtmlAgilityPack.HtmlDocument document = web.Load(site);
-                    try
+                    Uri uriResult;
+                    if (Uri.TryCreate(site, UriKind.Absolute, out uriResult)
+                        && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
                     {
-                        if (document.DocumentNode.SelectNodes("//a") != null)
-                        {
-                            HtmlNode[] nodes = document.DocumentNode.SelectNodes("//a").ToArray();
-                            foreach (HtmlNode node in nodes)
-                            {
-                                if (node.Attributes.Contains("href"))
-                                {
-                                    if (node.Attributes["href"].Value.StartsWith("/") || node.Attributes["href"].Value.StartsWith("#"))
-                                    {
-                                        tB.AppendText(titleTrimming(node.InnerText) + Environment.NewLine + site + node.Attributes["href"].Value.Trim() + Environment.NewLine);
+                        string trimmedSiteName = site;
 
-                                        if (!checkIfAlreadyExists(titleTrimming(node.InnerText), site + node.Attributes["href"].Value.Trim()))
-                                            siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText), site + node.Attributes["href"].Value.Trim()));
-                                    }
-                                    else
+                        if (trimmedSiteName.StartsWith("https://"))
+                            trimmedSiteName = trimmedSiteName.Substring("https://".Length);
+                        if (trimmedSiteName.StartsWith("http://"))
+                            trimmedSiteName = trimmedSiteName.Substring("http://".Length);
+                        if (trimmedSiteName.StartsWith("www."))
+                            trimmedSiteName = trimmedSiteName.Substring("www.".Length);
+
+                        TabPage tP = new TabPage(trimmedSiteName);
+                        siteList.Add(new Site(site));
+
+                        RichTextBox tB = new RichTextBox();
+                        tB.Dock = DockStyle.Fill;
+                        tB.Multiline = true;
+                        tB.ScrollBars = RichTextBoxScrollBars.Vertical;
+
+                        HtmlAgilityPack.HtmlDocument document = web.Load(site);
+                        try
+                        {
+                            if (document.DocumentNode.SelectNodes("//a") != null)
+                            {
+                                HtmlNode[] nodes = document.DocumentNode.SelectNodes("//a").ToArray();
+                                foreach (HtmlNode node in nodes)
+                                {
+                                    if (node.Attributes.Contains("href"))
                                     {
-                                        tB.AppendText(titleTrimming(node.InnerText) + Environment.NewLine + node.Attributes["href"].Value.Trim() + Environment.NewLine);
-                                        if (!checkIfAlreadyExists(titleTrimming(node.InnerText), node.Attributes["href"].Value.Trim()))
-                                            siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText), node.Attributes["href"].Value.Trim()));
+                                        if (node.Attributes["href"].Value.StartsWith("/") || node.Attributes["href"].Value.StartsWith("#"))
+                                        {
+                                            tB.AppendText(titleTrimming(node.InnerText) + Environment.NewLine + site + node.Attributes["href"].Value.Trim() + Environment.NewLine);
+
+                                            if (!checkIfAlreadyExists(titleTrimming(node.InnerText), site + node.Attributes["href"].Value.Trim()))
+                                                siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText), site + node.Attributes["href"].Value.Trim()));
+                                        }
+                                        else
+                                        {
+                                            tB.AppendText(titleTrimming(node.InnerText) + Environment.NewLine + node.Attributes["href"].Value.Trim() + Environment.NewLine);
+                                            if (!checkIfAlreadyExists(titleTrimming(node.InnerText), node.Attributes["href"].Value.Trim()))
+                                                siteList[siteList.Count - 1].articles.Add(new Article(titleTrimming(node.InnerText), node.Attributes["href"].Value.Trim()));
+                                        }
                                     }
                                 }
                             }
                         }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show("Following error occured: " + Environment.NewLine + e.ToString());
+                        }
+                        tP.Controls.Add(tB);
+                        tC.TabPages.Add(tP);
                     }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show("Following error occured: " + Environment.NewLine + e.ToString());
-                    }
-                    tP.Controls.Add(tB);
-                    tC.TabPages.Add(tP);
                 }
             }
-
         }
         private void bttnRun_Click(object sender, EventArgs e)
         {
@@ -199,8 +201,11 @@ namespace NewsApp
         {
             panelCover.Visible = true;
             lblPressSearch.Visible = true;
+            MessageBox.Show("Loading. Please wait.");
+
             tabControl.TabPages.Clear();
             readSitesHtmlToTabs(tabControl);
+
             tbEmailAdress.Enabled = true;
             tbEmailLogin.Enabled = true;
             tbEmailPassword.Enabled = true;
@@ -274,6 +279,24 @@ namespace NewsApp
                 MessageBox.Show("Following error occured: " + Environment.NewLine + ex.ToString());
             }
         }
+        private bool isInternetConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    using (client.OpenRead("http://www.google.com/"))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Could not establish an internet connection.");
+                return false;
+            }
+        }
 
         private void bttnSaveFile_Click(object sender, EventArgs e)
         {
@@ -289,6 +312,18 @@ namespace NewsApp
             {
                 MessageBox.Show("Following error occured: " + Environment.NewLine + ex.ToString());
             }
+        }
+
+        private void tbKeyword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == (char)Keys.Enter)
+                bttnRun_Click(sender, e);
+        }
+
+        private void rtbInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+                bttnSaveFile_Click(sender, e);
         }
     }
 }

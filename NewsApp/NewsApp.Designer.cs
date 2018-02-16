@@ -59,6 +59,7 @@
             this.rtbInput.Size = new System.Drawing.Size(495, 261);
             this.rtbInput.TabIndex = 0;
             this.rtbInput.Text = "";
+            this.rtbInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rtbInput_KeyPress);
             // 
             // tbKeyword
             // 
@@ -67,7 +68,8 @@
             this.tbKeyword.Location = new System.Drawing.Point(513, 32);
             this.tbKeyword.Name = "tbKeyword";
             this.tbKeyword.Size = new System.Drawing.Size(375, 24);
-            this.tbKeyword.TabIndex = 2;
+            this.tbKeyword.TabIndex = 5;
+            this.tbKeyword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbKeyword_KeyPress);
             // 
             // bttnRun
             // 
@@ -75,7 +77,7 @@
             this.bttnRun.Location = new System.Drawing.Point(894, 32);
             this.bttnRun.Name = "bttnRun";
             this.bttnRun.Size = new System.Drawing.Size(114, 23);
-            this.bttnRun.TabIndex = 3;
+            this.bttnRun.TabIndex = 6;
             this.bttnRun.Text = "Filter";
             this.bttnRun.UseVisualStyleBackColor = true;
             this.bttnRun.Click += new System.EventHandler(this.bttnRun_Click);
@@ -103,7 +105,7 @@
             this.bttnSend.Location = new System.Drawing.Point(713, 575);
             this.bttnSend.Name = "bttnSend";
             this.bttnSend.Size = new System.Drawing.Size(114, 23);
-            this.bttnSend.TabIndex = 6;
+            this.bttnSend.TabIndex = 11;
             this.bttnSend.Text = "Send via Mail";
             this.bttnSend.UseVisualStyleBackColor = true;
             this.bttnSend.Click += new System.EventHandler(this.bttnSend_Click);
@@ -115,7 +117,7 @@
             this.tbMailInput.Location = new System.Drawing.Point(633, 545);
             this.tbMailInput.Name = "tbMailInput";
             this.tbMailInput.Size = new System.Drawing.Size(375, 24);
-            this.tbMailInput.TabIndex = 7;
+            this.tbMailInput.TabIndex = 10;
             // 
             // tbEmailAdress
             // 
@@ -124,7 +126,7 @@
             this.tbEmailAdress.Location = new System.Drawing.Point(633, 455);
             this.tbEmailAdress.Name = "tbEmailAdress";
             this.tbEmailAdress.Size = new System.Drawing.Size(375, 24);
-            this.tbEmailAdress.TabIndex = 8;
+            this.tbEmailAdress.TabIndex = 7;
             // 
             // tbEmailLogin
             // 
@@ -133,7 +135,7 @@
             this.tbEmailLogin.Location = new System.Drawing.Point(633, 485);
             this.tbEmailLogin.Name = "tbEmailLogin";
             this.tbEmailLogin.Size = new System.Drawing.Size(375, 24);
-            this.tbEmailLogin.TabIndex = 9;
+            this.tbEmailLogin.TabIndex = 8;
             // 
             // tbEmailPassword
             // 
@@ -143,7 +145,7 @@
             this.tbEmailPassword.Name = "tbEmailPassword";
             this.tbEmailPassword.PasswordChar = '*';
             this.tbEmailPassword.Size = new System.Drawing.Size(375, 24);
-            this.tbEmailPassword.TabIndex = 10;
+            this.tbEmailPassword.TabIndex = 9;
             // 
             // lblEmailAdress
             // 
@@ -186,7 +188,7 @@
             this.bttnSearch.Location = new System.Drawing.Point(12, 299);
             this.bttnSearch.Name = "bttnSearch";
             this.bttnSearch.Size = new System.Drawing.Size(114, 23);
-            this.bttnSearch.TabIndex = 15;
+            this.bttnSearch.TabIndex = 1;
             this.bttnSearch.Text = "Search for articles";
             this.bttnSearch.UseVisualStyleBackColor = true;
             this.bttnSearch.Click += new System.EventHandler(this.bttnSearch_Click);
@@ -196,7 +198,7 @@
             this.bttnReadFile.Location = new System.Drawing.Point(273, 299);
             this.bttnReadFile.Name = "bttnReadFile";
             this.bttnReadFile.Size = new System.Drawing.Size(114, 23);
-            this.bttnReadFile.TabIndex = 16;
+            this.bttnReadFile.TabIndex = 2;
             this.bttnReadFile.Text = "Read from file";
             this.bttnReadFile.UseVisualStyleBackColor = true;
             this.bttnReadFile.Click += new System.EventHandler(this.bttnReadFile_Click);
@@ -206,7 +208,7 @@
             this.bttnSaveFile.Location = new System.Drawing.Point(393, 299);
             this.bttnSaveFile.Name = "bttnSaveFile";
             this.bttnSaveFile.Size = new System.Drawing.Size(114, 23);
-            this.bttnSaveFile.TabIndex = 17;
+            this.bttnSaveFile.TabIndex = 3;
             this.bttnSaveFile.Text = "Save to file...";
             this.bttnSaveFile.UseVisualStyleBackColor = true;
             this.bttnSaveFile.Click += new System.EventHandler(this.bttnSaveFile_Click);
@@ -217,7 +219,7 @@
             this.panelCover.Location = new System.Drawing.Point(12, 328);
             this.panelCover.Name = "panelCover";
             this.panelCover.Size = new System.Drawing.Size(495, 270);
-            this.panelCover.TabIndex = 18;
+            this.panelCover.TabIndex = 4;
             // 
             // lblPressSearch
             // 
